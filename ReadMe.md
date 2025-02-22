@@ -56,12 +56,13 @@ sudo ip link set can0 up type can bitrate 500000
 ```
 
 - `ifconfig`
-- ![](./images/ifconfig.jpg)
+  ![](./images/ifconfig.jpg)
 
 ### 7️⃣ Installing the Python CAN Library
 
 ```sh
-pip3 install python3-can
+sudo apt update  
+sudo apt install python3-can
 ```
 
 ### 8️⃣ Running the Python Code
