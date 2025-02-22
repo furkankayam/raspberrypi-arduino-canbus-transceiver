@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://forums.raspberrypi.com/viewtopic.php?t=296117 -->
+<html dir="ltr" lang="en-gb" class="pnmyxjl idc0_350"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums</title>
+
+	<link rel="alternate" type="application/atom+xml" title="Feed - Raspberry Pi Forums" href="https://forums.raspberrypi.com/app.php/feed?sid=6b8e755522c0a80abe26889ac8a958a1">			<link rel="alternate" type="application/atom+xml" title="Feed - New Topics" href="https://forums.raspberrypi.com/app.php/feed/topics?sid=6b8e755522c0a80abe26889ac8a958a1">		<link rel="alternate" type="application/atom+xml" title="Feed - Forum - Interfacing (DSI, CSI, I2C, etc.)" href="https://forums.raspberrypi.com/app.php/feed/forum/44?sid=6b8e755522c0a80abe26889ac8a958a1">	<link rel="alternate" type="application/atom+xml" title="Feed - Topic - [quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino" href="https://forums.raspberrypi.com/app.php/feed/topic/296117?sid=6b8e755522c0a80abe26889ac8a958a1">
+	
+
+<!--[if IE]><link rel="shortcut icon" href="./styles/rpi/theme/images/favicon.png"><![endif]-->
+<!-- <link rel="apple-touch-icon-precomposed" href="./styles/rpi/theme/images/apple-touch-icon-precomposed.gif"> -->
+<link rel="icon" href="https://forums.raspberrypi.com/styles/rpi/theme/images/favicon.png">
+
+	<link rel="canonical" href="https://forums.raspberrypi.com/viewtopic.php?t=296117">
+
+<link href="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/font-awesome.min.css" rel="stylesheet" type="text/css" media="screen, projection">
+<link href="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/legacy.min.css" rel="stylesheet">
+<link href="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/stylesheet.css" rel="stylesheet" type="text/css" media="screen, projection">
+<link href="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/colours_rpi.css" rel="stylesheet" type="text/css" media="screen, projection">
+<link href="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/print.css" rel="stylesheet" type="text/css" media="print">
+
+
+
+
+
+
+</head>
+
+<body id="phpbb" class="notouch section-viewtopic ltr section-forums hasjs" cz-shortcut-listen="true">
+
+
+<div id="overall-wrap">
+  <a id="top" class="anchor" accesskey="t"></a>
+  <style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+#__rptl-header {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: medium;
+  font-weight: 400;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  z-index: 100;
+}
+#__rptl-header .__rptl-header-wrapper {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+#__rptl-header .__rptl-header-navbar {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+  border-bottom: 1px solid #dedede;
+  width: 100%;
+  padding: 16px;
+}
+@media (min-width: 800px) {
+  #__rptl-header .__rptl-header-navbar {
+    padding: 16px 76px;
+  }
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-navbar {
+    padding: 16px 84px;
+    border-bottom-style: none;
+  }
+}
+#__rptl-header .__rptl-header-brand {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+}
+#__rptl-header .__rptl-header-logo {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  display: block;
+  vertical-align: middle;
+}
+#__rptl-header .__rptl-header-burger {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  transform: rotate(0deg);
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-burger {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #__rptl-header .__rptl-header-burger {
+    transition: 0.5s ease-in-out;
+  }
+}
+#__rptl-header .__rptl-header-burger-stroke {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #707070;
+  border-radius: 9px;
+  transform: rotate(0deg);
+}
+#__rptl-header .__rptl-header-burger-stroke:nth-child(1) {
+  top: 0;
+  transform-origin: left center;
+}
+#__rptl-header .__rptl-header-burger-stroke:nth-child(2) {
+  top: 14px;
+  transform-origin: left center;
+}
+#__rptl-header .__rptl-header-burger-stroke:nth-child(3) {
+  top: 28px;
+  transform-origin: left center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  #__rptl-header .__rptl-header-burger-stroke {
+    transition: 0.25s ease-in-out;
+  }
+}
+#__rptl-header .__rptl-header-burger-state {
+  display: none;
+}
+#__rptl-header .__rptl-header-burger-state:checked + .__rptl-header-navbar .__rptl-header-burger-stroke:nth-child(1) {
+  transform: rotate(45deg);
+  top: 4.5px;
+  left: 4.5px;
+}
+#__rptl-header .__rptl-header-burger-state:checked + .__rptl-header-navbar .__rptl-header-burger-stroke:nth-child(2) {
+  width: 0;
+  opacity: 0;
+}
+#__rptl-header .__rptl-header-burger-state:checked + .__rptl-header-navbar .__rptl-header-burger-stroke:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 25.5px;
+  left: 4.5px;
+}
+#__rptl-header .__rptl-header-burger-state:checked ~ .__rptl-header-nav {
+  transform: translateY(100%);
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+}
+#__rptl-header .__rptl-header-nav {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  background-color: #fff;
+  width: 100%;
+  border-bottom: 1px solid #dedede;
+}
+#__rptl-header .__rptl-header-nav:focus-within {
+  transform: translateY(100%);
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-nav {
+    position: static;
+    padding: 0 84px;
+    background-color: #f7f8fa;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #__rptl-header .__rptl-header-nav {
+    transition: transform 0.25s ease-in;
+  }
+}
+#__rptl-header .__rptl-header-nav-inner {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+}
+#__rptl-header .__rptl-header-nav-list {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  list-style: none;
+  display: block;
+  box-sizing: border-box;
+}
+#__rptl-header .__rptl-header-nav-list:first-child .__rptl-header-nav-list-item:first-child {
+  border: 0;
+}
+#__rptl-header .__rptl-header-nav-list-item {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  display: block;
+  box-sizing: border-box;
+  border-top: 1px solid #dedede;
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-nav-list-item {
+    display: inline-block;
+    border-style: none;
+  }
+}
+#__rptl-header .__rptl-header-nav-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  display: block;
+  text-decoration: none;
+  box-sizing: border-box;
+  color: #333;
+  font-size: 1.65em;
+  padding: 16px;
+}
+#__rptl-header .__rptl-header-nav-link:hover {
+  color: #fff;
+  background-color: #333;
+}
+#__rptl-header .__rptl-header-nav-link--for-home, #__rptl-header .__rptl-header-nav-link--for-industry {
+  font-weight: 700;
+}
+@media (min-width: 800px) {
+  #__rptl-header .__rptl-header-nav-link {
+    padding: 16px 76px;
+  }
+}
+@media (min-width: 1200px) {
+  #__rptl-header .__rptl-header-nav-link {
+    font-size: 1em;
+    padding: 16px;
+  }
+}
+
+#__rptl-cookiebanner {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: medium;
+  font-weight: 400;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  z-index: 101;
+  background: #333;
+  color: #fff;
+}
+#__rptl-cookiebanner.__rptl-cookiebanner-hidden {
+  display: none;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-wrapper {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+}
+@media (min-width: 800px) {
+  #__rptl-cookiebanner .__rptl-cookiebanner-wrapper {
+    padding: 16px 76px;
+  }
+}
+@media (min-width: 1200px) {
+  #__rptl-cookiebanner .__rptl-cookiebanner-wrapper {
+    padding: 16px 84px;
+  }
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-text {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  display: block;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-link:hover {
+  text-decoration: underline;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+@media (min-width: 640px) {
+  #__rptl-cookiebanner .__rptl-cookiebanner-buttons {
+    flex-direction: row;
+  }
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-accept, #__rptl-cookiebanner .__rptl-cookiebanner-reject {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  cursor: pointer;
+  border-radius: 9999px;
+  line-height: 1.5;
+  font-weight: bold;
+  padding: 5px 15px;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-accept:hover, #__rptl-cookiebanner .__rptl-cookiebanner-reject:hover {
+  text-decoration: underline;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-accept:focus, #__rptl-cookiebanner .__rptl-cookiebanner-reject:focus {
+  box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgb(121, 167, 236) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-accept {
+  color: #333;
+  background: #fff;
+}
+#__rptl-cookiebanner .__rptl-cookiebanner-reject {
+  color: #fff;
+  background: #333;
+}
+</style>
+<div id="__rptl-cookiebanner" class="">
+  <div class="__rptl-cookiebanner-wrapper">
+    <p class="__rptl-cookiebanner-text">
+      We use some essential cookies to make our website work.
+    </p>
+    <p class="__rptl-cookiebanner-text">
+      We use optional cookies, as detailed in our <a href="https://www.raspberrypi.com/cookies/" class="__rptl-cookiebanner-link">cookie policy</a>, to remember your
+      settings and understand how you use our website.
+    </p>
+    <div class="__rptl-cookiebanner-buttons">
+      <button id="__rptl-cookiebanner-accept" class="__rptl-cookiebanner-accept">
+        Accept optional cookies
+      </button>
+      <button id="__rptl-cookiebanner-reject" class="__rptl-cookiebanner-reject">
+        Reject optional cookies
+      </button>
+    </div>
+  </div>
+</div>
+<header id="__rptl-header">
+  <input type="checkbox" class="__rptl-header-burger-state" id="__rptl-header-burger-state">
+
+  <div class="__rptl-header-navbar">
+    <div class="__rptl-header-wrapper">
+      <a href="https://www.raspberrypi.com/" class="__rptl-header-brand">
+        <svg class="__rptl-header-logo" aria-hidden="true" focusable="false" height="44" viewBox="0 0 270 57" xmlns="http://www.w3.org/2000/svg" aria-labelledby="__rptl-header-logo"><title id="__rptl-header-logo">Raspberry Pi</title><g fill-rule="nonzero" fill="none"><path d="M65.275 33.317h-4.477v9.46c0 .29-.235.526-.525.526h-4.57a.525.525 0 0 1-.526-.525V16.55a.525.525 0 0 1 .525-.525h9.61c3.223 0 5.709.718 7.457 2.154a7.437 7.437 0 0 1 2.623 6.09 8.391 8.391 0 0 1-1.208 4.655 8.24 8.24 0 0 1-3.663 2.97l5.635 10.638a.525.525 0 0 1-.464.77h-4.917a.63.63 0 0 1-.56-.342l-4.94-9.643Zm-4.477-4.552h4.534a4.641 4.641 0 0 0 3.278-1.078 3.85 3.85 0 0 0 1.162-2.97 4.122 4.122 0 0 0-1.096-3.034 4.556 4.556 0 0 0-3.363-1.106h-4.515v8.188ZM90.426 42.997a6.562 6.562 0 0 1-.402-1.511 6.551 6.551 0 0 1-5.114 2.192 7.195 7.195 0 0 1-4.937-1.724 5.542 5.542 0 0 1-1.958-4.347 5.73 5.73 0 0 1 2.389-4.946c1.592-1.148 3.894-1.73 6.904-1.742h2.491v-1.162a3.342 3.342 0 0 0-.72-2.248 2.838 2.838 0 0 0-2.277-.843 3.226 3.226 0 0 0-2.145.656 2.13 2.13 0 0 0-.748 1.37.513.513 0 0 1-.513.428h-4.375a.533.533 0 0 1-.524-.596 5.494 5.494 0 0 1 1.054-2.663 7.184 7.184 0 0 1 3.073-2.352 11.2 11.2 0 0 1 4.459-.852 8.848 8.848 0 0 1 5.948 1.883 6.587 6.587 0 0 1 2.202 5.292v8.787a9.948 9.948 0 0 0 .629 3.93.525.525 0 0 1-.47.754h-4.485a.515.515 0 0 1-.48-.306Zm-4.336-3.46c.77.007 1.529-.176 2.21-.534a3.509 3.509 0 0 0 1.5-1.433v-3.485h-2.024c-2.71 0-4.153.937-4.328 2.81l-.019.319a2.166 2.166 0 0 0 .712 1.667 2.764 2.764 0 0 0 1.949.656ZM109.963 37.701a1.745 1.745 0 0 0-.983-1.564 11.18 11.18 0 0 0-3.157-1.021c-4.822-1.012-7.232-3.06-7.232-6.145a5.57 5.57 0 0 1 2.24-4.506 9.031 9.031 0 0 1 5.854-1.808 9.723 9.723 0 0 1 6.173 1.817 5.699 5.699 0 0 1 2.292 4.175.52.52 0 0 1-.525.546h-4.382a.514.514 0 0 1-.514-.435 2.538 2.538 0 0 0-.721-1.485 3.172 3.172 0 0 0-2.342-.759 3.24 3.24 0 0 0-2.117.619c-.483.377-.76.96-.75 1.573.001.603.327 1.158.853 1.452a8.76 8.76 0 0 0 2.876.956 23.54 23.54 0 0 1 3.41.908c2.86 1.05 4.29 2.867 4.29 5.452a5.288 5.288 0 0 1-2.38 4.487 10.264 10.264 0 0 1-6.145 1.715c-1.556.029-3.1-.281-4.524-.91a7.586 7.586 0 0 1-3.1-2.49 5.853 5.853 0 0 1-1.094-2.824.533.533 0 0 1 .523-.596h4.11a.513.513 0 0 1 .513.418c.091.71.46 1.354 1.024 1.793a4.233 4.233 0 0 0 2.66.768c.827.057 1.65-.15 2.352-.59.508-.35.807-.93.796-1.546ZM136.719 33.355a12.159 12.159 0 0 1-2.127 7.503 6.817 6.817 0 0 1-5.742 2.82 6.315 6.315 0 0 1-4.965-2.136v9.03c0 .29-.235.525-.525.525h-4.364a.525.525 0 0 1-.525-.525V23.557a.525.525 0 0 1 .525-.525h4.018c.27 0 .497.206.523.475l.142 1.51a6.363 6.363 0 0 1 5.134-2.36 6.865 6.865 0 0 1 5.826 2.773c1.387 1.848 2.08 4.396 2.08 7.644v.28Zm-5.415-.394a7.982 7.982 0 0 0-1.002-4.365 3.266 3.266 0 0 0-2.913-1.536 3.546 3.546 0 0 0-3.504 1.948v8.3a3.605 3.605 0 0 0 3.541 2.004c2.586 0 3.878-2.117 3.878-6.35ZM158.159 33.355c0 3.247-.694 5.78-2.08 7.597a6.889 6.889 0 0 1-5.808 2.726 6.329 6.329 0 0 1-5.264-2.53l-.191 1.689a.525.525 0 0 1-.522.466h-3.877a.525.525 0 0 1-.525-.525V15.05c0-.29.235-.525.525-.525h4.364a.525.525 0 0 1 .525.525v9.798a6.166 6.166 0 0 1 4.928-2.192 6.945 6.945 0 0 1 5.817 2.726c1.405 1.817 2.108 4.374 2.108 7.672v.3Zm-5.415-.394a8.068 8.068 0 0 0-.974-4.487 3.295 3.295 0 0 0-2.904-1.414 3.572 3.572 0 0 0-3.56 2.117v8a3.62 3.62 0 0 0 3.597 2.135c1.626.093 3.081-.999 3.448-2.585.31-1.23.442-2.498.393-3.766ZM170.555 43.678a9.95 9.95 0 0 1-7.26-2.736 9.722 9.722 0 0 1-2.8-7.288v-.524a12.247 12.247 0 0 1 1.18-5.461 8.666 8.666 0 0 1 3.344-3.71 9.387 9.387 0 0 1 4.936-1.302 8.413 8.413 0 0 1 6.548 2.623c1.593 1.749 2.39 4.228 2.39 7.438v1.685a.525.525 0 0 1-.526.525h-12.383a5.028 5.028 0 0 0 1.583 3.185 4.785 4.785 0 0 0 3.344 1.2 5.886 5.886 0 0 0 4.524-1.837.527.527 0 0 1 .773.026l1.964 2.198c.17.188.182.47.028.672a8.216 8.216 0 0 1-3.036 2.34 10.82 10.82 0 0 1-4.609.966Zm-.618-16.656a3.382 3.382 0 0 0-2.614 1.092 5.65 5.65 0 0 0-1.283 3.124h7.531v-.433a4.034 4.034 0 0 0-.974-2.795 3.492 3.492 0 0 0-2.66-.988ZM193.333 27.525a.523.523 0 0 1-.575.515c-.459-.051-.92-.078-1.382-.081-2.049 0-3.391.693-4.028 2.08v12.739a.525.525 0 0 1-.525.525h-4.364a.525.525 0 0 1-.525-.525V23.557a.525.525 0 0 1 .525-.525h4.096c.277 0 .507.215.524.492l.12 1.924a5.017 5.017 0 0 1 4.514-2.791c.434-.002.867.044 1.29.138a.515.515 0 0 1 .39.515l-.06 4.215ZM207.017 27.525a.523.523 0 0 1-.575.515c-.459-.051-.92-.078-1.382-.081-2.048 0-3.39.693-4.028 2.08v12.739a.525.525 0 0 1-.525.525h-4.364a.525.525 0 0 1-.525-.525V23.557a.525.525 0 0 1 .525-.525h4.096c.277 0 .507.215.524.492l.12 1.924a5.018 5.018 0 0 1 4.514-2.791c.434-.002.867.044 1.29.138a.515.515 0 0 1 .39.515l-.06 4.215ZM217.934 35.64l3.635-12.233a.525.525 0 0 1 .504-.375h4.677a.525.525 0 0 1 .496.697l-7.907 22.721-.45 1.068a6.18 6.18 0 0 1-5.995 3.972 8.368 8.368 0 0 1-2.003-.25.529.529 0 0 1-.395-.513v-3.15a.525.525 0 0 1 .546-.524l.538.02a3.442 3.442 0 0 0 2.035-.492 3.08 3.08 0 0 0 1.19-1.555l.637-1.667-6.857-19.63a.525.525 0 0 1 .496-.697h4.696c.232 0 .437.152.503.374l3.654 12.234ZM245.156 33.692v9.086c0 .29-.235.525-.525.525h-4.57a.525.525 0 0 1-.526-.525V16.55a.525.525 0 0 1 .525-.525h10.117a12.31 12.31 0 0 1 5.405 1.124 8.284 8.284 0 0 1 3.587 3.194 8.91 8.91 0 0 1 1.256 4.712 7.833 7.833 0 0 1-2.745 6.323c-1.83 1.543-4.362 2.314-7.597 2.314h-4.927Zm0-4.553h5.02a4.934 4.934 0 0 0 3.401-1.049 3.816 3.816 0 0 0 1.171-2.998 4.5 4.5 0 0 0-1.18-3.24 4.41 4.41 0 0 0-3.26-1.275h-5.152v8.562ZM263.081 17.786a2.666 2.666 0 0 1 .815-2.005 3.512 3.512 0 0 1 4.431 0 2.86 2.86 0 0 1-.01 4.028 3.473 3.473 0 0 1-4.402 0 2.66 2.66 0 0 1-.834-2.023Zm5.227 25.517h-4.383a.525.525 0 0 1-.525-.525V23.557a.525.525 0 0 1 .525-.525h4.383a.525.525 0 0 1 .525.525v19.22a.525.525 0 0 1-.525.526ZM45.008 32.949a8.74 8.74 0 0 0-3.104-6.182 7.664 7.664 0 0 0-1.44-2.801 8.594 8.594 0 0 0-3.058-5.777c.284-.244.524-.536.708-.862a6.186 6.186 0 0 0 3.63-4.23 5.558 5.558 0 0 0 1.755-3.64 3.481 3.481 0 0 0-.31-1.638 3.114 3.114 0 0 0 .81-3.215c-.606-1.756-2.73-2.896-5.584-3.017a4.497 4.497 0 0 0-3.11-1.065 7.188 7.188 0 0 0-1.678.207 3.821 3.821 0 0 0-1.65-.334 6.458 6.458 0 0 0-3.148.858 2.894 2.894 0 0 0-.38-.025 6.276 6.276 0 0 0-3.551 1.558 10.765 10.765 0 0 0-1.866 1.944 10.768 10.768 0 0 0-1.867-1.944 6.278 6.278 0 0 0-3.55-1.558c-.127 0-.254.008-.38.025a6.46 6.46 0 0 0-3.148-.858 3.822 3.822 0 0 0-1.65.334 7.188 7.188 0 0 0-1.68-.207 4.498 4.498 0 0 0-3.109 1.065c-2.854.12-4.978 1.261-5.585 3.018a3.114 3.114 0 0 0 .812 3.214 3.482 3.482 0 0 0-.31 1.639 5.557 5.557 0 0 0 1.755 3.64 6.186 6.186 0 0 0 3.63 4.229c.183.326.423.618.707.862A8.594 8.594 0 0 0 5.6 23.966a7.663 7.663 0 0 0-1.44 2.801 8.74 8.74 0 0 0-3.104 6.182 8.424 8.424 0 0 0 1.92 6.578c.26 1.31.8 2.549 1.581 3.632a9.452 9.452 0 0 0 2.386 5.514 9.768 9.768 0 0 0 5.262 3.126 12.74 12.74 0 0 0 4.208 2.605 9.763 9.763 0 0 0 13.24 0c1.559-.585 2.988-1.47 4.207-2.605a9.768 9.768 0 0 0 5.262-3.126 9.452 9.452 0 0 0 2.386-5.514 9.311 9.311 0 0 0 1.582-3.632 8.424 8.424 0 0 0 1.919-6.578Z" fill="#000"></path><path d="M28.366 4.192a.225.225 0 0 1 .286.24c-.072.672.335.587.432.468a3.526 3.526 0 0 1 3.188-1.53.225.225 0 0 1 .154.363c-.4.593.03.706.19.6 1.631-1.02 3.187-1.023 3.785-.594a.225.225 0 0 1 .013.349c-.604.514-.266.77-.052.692a5.802 5.802 0 0 1 4.74.607.227.227 0 0 1 .006.343 4.493 4.493 0 0 0-1.73 3.018c-.045.396.614.313.891.241a.225.225 0 0 1 .28.21c.026.954-.876 2.002-2.218 2.898-.18.12-.154.408.256.42a.222.222 0 0 1 .191.334c-.478.888-1.13 1.724-3.345 2.298a.227.227 0 0 0-.032.429.217.217 0 0 1 .071.384c-2.207 1.896-7.8 1.148-8.51-2.043a.224.224 0 0 1 .04-.182 21.262 21.262 0 0 1 9.276-7.058.176.176 0 0 0-.087-.34 15.168 15.168 0 0 0-10.074 6.074.227.227 0 0 1-.289.065c-3.585-1.851-.64-7.317 2.538-8.286ZM7.285 12.85a.222.222 0 0 1 .191-.334c.41-.01.436-.299.256-.419C6.39 11.201 5.49 10.153 5.514 9.2a.225.225 0 0 1 .28-.21c.278.072.936.155.891-.241a4.493 4.493 0 0 0-1.73-3.017.227.227 0 0 1 .006-.344 5.802 5.802 0 0 1 4.74-.607c.214.079.552-.178-.052-.692a.225.225 0 0 1 .014-.35c.597-.428 2.153-.426 3.785.594.159.107.589-.006.19-.599a.225.225 0 0 1 .153-.363A3.526 3.526 0 0 1 16.98 4.9c.096.12.503.204.432-.469a.225.225 0 0 1 .286-.239c3.178.97 6.122 6.435 2.537 8.286a.227.227 0 0 1-.289-.065A15.168 15.168 0 0 0 9.873 6.34a.176.176 0 0 0-.088.34 21.262 21.262 0 0 1 9.276 7.057c.04.052.054.119.04.183-.71 3.19-6.303 3.938-8.51 2.042a.217.217 0 0 1 .071-.384.227.227 0 0 0-.031-.429c-2.216-.574-2.867-1.41-3.346-2.298Z" fill="#46AF4B"></path><path d="M37.158 22.605c.92 2.446.203 3.622-1.978 2.377a15.632 15.632 0 0 1-4.58-3.84c-1.644-1.952-.576-2.821 2.012-2.352a6.985 6.985 0 0 1 4.546 3.815ZM27.375 19.853c3.12 2.593-.454 4.428-4.343 4.428-3.89 0-7.463-1.835-4.344-4.428a6.935 6.935 0 0 1 8.687 0ZM8.906 22.605a6.985 6.985 0 0 1 4.545-3.815c2.588-.47 3.656.4 2.013 2.352a15.632 15.632 0 0 1-4.58 3.84c-2.182 1.245-2.898.069-1.978-2.377ZM4.394 36.196a6.983 6.983 0 0 1 .518-5.942c1.153-1.96 2.313-1.883 2.773-.222.585 2.29.373 4.712-.6 6.867-.854 1.696-1.921 1.123-2.691-.703ZM12.704 48.896A6.942 6.942 0 0 1 7.482 42.7c.433-10.066 14.94 7.91 5.222 6.196ZM12.999 36.358c-2.433-1.404-3.077-4.844-1.438-7.682 1.639-2.839 4.94-4 7.372-2.596 2.433 1.404 3.077 4.844 1.438 7.682-1.639 2.839-4.94 4-7.372 2.596ZM27.091 52.737a6.947 6.947 0 0 1-8.119 0c-2.41-1.664.015-3.58 4.06-3.58s6.47 1.916 4.06 3.58Z" fill="#CD2355"></path><ellipse fill="#CD2355" cx="23.032" cy="41.795" rx="5.647" ry="4.84"></ellipse><path d="M25.692 33.762c-1.639-2.838-.995-6.278 1.438-7.682 2.433-1.405 5.734-.243 7.372 2.596 1.64 2.838.995 6.278-1.438 7.682-2.432 1.405-5.733.243-7.372-2.596ZM33.36 48.896C23.64 50.61 38.149 32.634 38.58 42.7a6.941 6.941 0 0 1-5.221 6.196ZM41.67 36.196c-.77 1.826-1.838 2.399-2.691.703a10.417 10.417 0 0 1-.6-6.867c.46-1.66 1.62-1.739 2.772.222a6.983 6.983 0 0 1 .518 5.942Z" fill="#CD2355"></path></g></svg>
+      </a>
+
+      <label class="__rptl-header-burger" for="__rptl-header-burger-state">
+        <span class="__rptl-header-burger-stroke"></span>
+        <span class="__rptl-header-burger-stroke"></span>
+        <span class="__rptl-header-burger-stroke"></span>
+      </label>
+    </div>
+  </div>
+
+  <nav class="__rptl-header-nav">
+    <div class="__rptl-header-wrapper">
+      <div class="__rptl-header-nav-inner">
+        <ul class="__rptl-header-nav-list">
+          <li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/for-industry/" class="__rptl-header-nav-link __rptl-header-nav-link--for-industry">For industry</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/for-home/" class="__rptl-header-nav-link __rptl-header-nav-link--for-home">For home</a>
+        </li></ul>
+        <ul class="__rptl-header-nav-list">
+          <li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/products/" class="__rptl-header-nav-link">Hardware</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/software/" class="__rptl-header-nav-link">Software</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/documentation/" class="__rptl-header-nav-link">Documentation</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/news/" class="__rptl-header-nav-link">News</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://forums.raspberrypi.com/" class="__rptl-header-nav-link">Forums</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.org/" class="__rptl-header-nav-link" rel="noopener">Foundation</a>
+          </li><li class="__rptl-header-nav-list-item"><a href="https://www.raspberrypi.com/contact/" class="__rptl-header-nav-link">Contact</a>
+        </li></ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<script>
+  (function() {
+    var header = document.getElementById("__rptl-header"),
+        burgerState = document.getElementById("__rptl-header-burger-state"),
+        cookiebanner = document.getElementById("__rptl-cookiebanner"),
+        accept = document.getElementById("__rptl-cookiebanner-accept"),
+        reject = document.getElementById("__rptl-cookiebanner-reject");
+
+    if (document.cookie.indexOf("cookiebanner_accepted=") === -1) {
+      cookiebanner.classList.remove("__rptl-cookiebanner-hidden");
+    }
+
+    accept.addEventListener("click", function (e) {
+      document.cookie = "cookiebanner_accepted=1; path=/; max-age=" + 60 * 60 * 24 * 365 * 2;
+
+      if (typeof window.gtag !== "undefined") {
+        window.gtag("consent", "update", {
+          analytics_storage: "granted",
+        });
+      }
+
+      cookiebanner.classList.add("__rptl-cookiebanner-hidden");
+    });
+
+    reject.addEventListener("click", function (e) {
+      document.cookie = "cookiebanner_accepted=0; path=/; max-age=" + 60 * 60 * 24 * 365 * 2;
+
+      cookiebanner.classList.add("__rptl-cookiebanner-hidden");
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!header.contains(e.target)) {
+        burgerState.checked = false;
+      }
+    });
+  })();
+</script>
+
+	<div id="wrap-head">
+		<div id="site-header">
+			<div class="chunk">
+				<ul id="site-menu">
+					<li data-skip-responsive="true" class="site-menu"><a href="https://forums.raspberrypi.com/app.php/help/faq?sid=6b8e755522c0a80abe26889ac8a958a1" rel="help" title="Frequently Asked Questions">Forum FAQ</a></li>
+<li class="site-menu">
+	<a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" title="About">About</a>
+	<ul>
+		<li><a href="https://www.raspberrypi.com/about/">About us</a></li>
+		<li><a href="https://www.raspberrypi.com/contact/">Contact us</a></li>
+		<li><a href="https://www.raspberrypi.com/documentation/">Documentation</a></li>
+		<li><a href="https://www.raspberrypi.com/trademark-rules/">Trademark rules</a></li>
+	</ul>
+</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="site-nav" role="navigation">
+			<div class="chunk">
+
+				
+				<div class="site-nav">
+
+					
+										<div id="site-search" role="search">
+						<form action="https://forums.raspberrypi.com/search.php?sid=6b8e755522c0a80abe26889ac8a958a1" method="get">
+							<fieldset>
+								<input name="keywords" type="search" maxlength="128" title="Search for keywords" size="20" value="" placeholder="Search"><button type="submit" title="Search"><i class="fa fa-search"></i></button><input type="hidden" name="sid" value="6b8e755522c0a80abe26889ac8a958a1">
+
+							</fieldset>
+						</form>
+					</div>
+					
+					<ul role="menubar">
+											<li class="font-icon rightside" data-skip-responsive="true"><a href="https://forums.raspberrypi.com/ucp.php?mode=login&amp;redirect=viewtopic.php%3Ft%3D296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1" title="Login" accesskey="x" role="menuitem"><i class="fa fa-power-off"></i><span class="nav-rh-2">Login</span></a></li>
+												<li class="font-icon rightside" data-skip-responsive="true"><a href="https://forums.raspberrypi.com/ucp.php?mode=register&amp;sid=6b8e755522c0a80abe26889ac8a958a1" role="menuitem"><i class="fa fa-pencil-square-o"></i><span class="nav-rh-2">Register</span></a></li>
+																																		</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<a id="start_here" class="anchor"></a>
+		
+		
+		<!-- main element closes in overall_footer.html -->
+		<main id="rp-app-landmark-main">
+
+<div id="wrap-subhead">
+	<div class="chunk">
+		<div class="wrap-subhead">
+			<ul id="breadcrumbs" role="menubar">
+				<li class="font-icon responsive-menu dropdown-container" data-skip-responsive="true">
+  <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" class="responsive-menu-link dropdown-trigger dropdown-toggle"><i class="fa fa-bars"></i></a>
+  <div class="dropdown hidden">
+    <div class="pointer"><div class="pointer-inner"></div></div>
+    <ul class="dropdown-contents" role="menu">
+      
+              <li class="separator"></li>
+                                <li class="font-icon icon-search-unanswered"><a href="https://forums.raspberrypi.com/search.php?search_id=unanswered&amp;sid=6b8e755522c0a80abe26889ac8a958a1" role="menuitem"><i class="fa fa-file-o"></i>Unanswered topics</a></li>
+        <li class="font-icon icon-search-active"><a href="https://forums.raspberrypi.com/search.php?search_id=active_topics&amp;sid=6b8e755522c0a80abe26889ac8a958a1" role="menuitem"><i class="fa fa-fire"></i>Active topics</a></li>
+            <li class="separator site-menu"></li>
+
+      <li data-skip-responsive="true" class="site-menu"><a href="https://forums.raspberrypi.com/app.php/help/faq?sid=6b8e755522c0a80abe26889ac8a958a1" rel="help" title="Frequently Asked Questions">Forum FAQ</a></li>
+<li class="site-menu">
+	<a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" title="About">About</a>
+	<ul>
+		<li><a href="https://www.raspberrypi.com/about/">About us</a></li>
+		<li><a href="https://www.raspberrypi.com/contact/">Contact us</a></li>
+		<li><a href="https://www.raspberrypi.com/documentation/">Documentation</a></li>
+		<li><a href="https://www.raspberrypi.com/trademark-rules/">Trademark rules</a></li>
+	</ul>
+</li>
+
+          </ul>
+  </div>
+</li>
+								
+								<li class="breadcrumbs rightside" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+															<span class="crumb" itemtype="http://schema.org/ListItem" itemprop="itemListElement" itemscope="">
+						<a itemprop="item" href="https://forums.raspberrypi.com/index.php?sid=6b8e755522c0a80abe26889ac8a958a1" accesskey="h" data-navbar-reference="index" title="Board index"><i class="fa fa-home"></i><span itemprop="name">Board index</span></a>
+						<meta itemprop="position" content="1">
+					</span>
+					                    <span class="crumb" itemtype="http://schema.org/ListItem" itemprop="itemListElement" itemscope="" data-forum-id="16">
+    <a itemprop="item" href="https://forums.raspberrypi.com/viewforum.php?f=16&amp;sid=6b8e755522c0a80abe26889ac8a958a1" title="Hardware and peripherals"><span itemprop="name">Hardware and peripherals</span></a>
+    <meta itemprop="position" content="2">
+  </span>
+                      <span class="crumb" itemtype="http://schema.org/ListItem" itemprop="itemListElement" itemscope="" data-forum-id="44">
+    <a itemprop="item" href="https://forums.raspberrypi.com/viewforum.php?f=44&amp;sid=6b8e755522c0a80abe26889ac8a958a1" title="Interfacing (DSI, CSI, I2C, etc.)"><span itemprop="name">Interfacing (DSI, CSI, I2C, etc.)</span></a>
+    <meta itemprop="position" content="3">
+  </span>
+  									</li>
+							</ul>
+
+		</div>
+
+		<div id="subhead-title">
+			<h2 class="topic-title"><a href="https://forums.raspberrypi.com/viewtopic.php?t=296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1">[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino</a></h2>
+			
+					</div>
+
+	</div>
+</div>
+
+<div id="wrap-body">
+	<div class="chunk">
+
+		
+		<div class="action-bar top">
+
+			<div class="buttons">
+				
+							<a href="https://forums.raspberrypi.com/posting.php?mode=reply&amp;t=296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1" class="button font-icon" title="This topic is locked, you cannot edit posts or make further replies.">
+					<i class="fa fa-lock"></i>Locked				</a>
+			
+							</div>
+
+				<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Topic tools" class="button icon-button tools-icon dropdown-trigger dropdown-select dropdown-toggle"><i class="fa fa-wrench"></i></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="font-icon icon-print"><a href="https://forums.raspberrypi.com/viewtopic.php?t=296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1&amp;view=print" title="Print view" accesskey="p"><i class="fa fa-print"></i>Print view</a></li>							</ul>
+		</div>
+	</div>
+
+			
+							<div class="search-box" role="search">
+					<form method="get" id="topic-search" action="https://forums.raspberrypi.com/search.php?sid=6b8e755522c0a80abe26889ac8a958a1">
+					<fieldset>
+						<input class="inputbox search" type="search" name="keywords" id="search_keywords" size="20" placeholder="Search this topic…">
+						<button class="button" type="submit" title="Search"><i class="fa fa-search"></i></button>
+						<input type="hidden" name="t" value="296117">
+<input type="hidden" name="sf" value="msgonly">
+<input type="hidden" name="sid" value="6b8e755522c0a80abe26889ac8a958a1">
+
+					</fieldset>
+					</form>
+				</div>
+			
+							<div class="pagination">
+					1 post
+											• Page <strong>1</strong> of <strong>1</strong>
+									</div>
+			
+			
+		</div>
+
+		
+		
+		
+											<div id="p1785526" class="post has-profile bg2">
+				<div class="inner">
+
+				<dl class="postprofile" id="profile1785526">
+					<dt class="no-profile-rank no-avatar">
+						<div class="avatar-container">
+																											</div>
+
+						
+						<a href="https://forums.raspberrypi.com/memberlist.php?mode=viewprofile&amp;u=357077&amp;sid=6b8e755522c0a80abe26889ac8a958a1" class="username">Sundar19</a>
+						
+					</dt>
+
+					
+					
+					
+				<dd class="profile-posts"><strong>Posts:</strong> <a href="https://forums.raspberrypi.com/search.php?author_id=357077&amp;sr=posts&amp;sid=6b8e755522c0a80abe26889ac8a958a1">5</a></dd>				<dd class="profile-joined"><strong>Joined:</strong> Mon Dec 07, 2020 5:00 pm</dd>				
+				
+																			<dd class="profile-custom-field profile-phpbb_location"><strong>Location:</strong> san jose</dd>
+													
+												
+				</dl>
+
+				<div class="postbody">
+										<div id="post_content1785526">
+					
+					<h3 class="first"><a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#p1785526">[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino</a></h3>
+
+				
+				
+													
+				
+					
+					<p class="author"><a href="https://forums.raspberrypi.com/viewtopic.php?p=1785526&amp;sid=6b8e755522c0a80abe26889ac8a958a1#p1785526">Fri Dec 25, 2020 4:08 am</a> </p>
+
+					
+					
+					
+					<div class="content">Hi,<br>
+I am seeing many people who want to establish CAN communication between Raspberry Pi and Arduino and  that made me post the solution here .<br>
+VERY IMPORTANT NOTE:<br>
+1.Most of my steps are from <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=141052" class="postlink">viewtopic.php?t=141052</a> , Please check that out before coming here<br>
+2. You should not give 5V  to MCP2515 at it may damage your Raspberry pi GPIOs , So there is a step for giving 3.3V to MCP2515(CAN controller) and 5V for TJA1050(CAN transceiver) , That soldering step is available in  <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=141052" class="postlink">viewtopic.php?t=141052</a> , Please do that first and come here or else your raspberry pi will be damaged.<br>
+<br>
+[OR]<br>
+<br>
+You can use a logic level shifter similar to this <a href="https://learn.sparkfun.com/tutorials/bi-directional-logic-level-converter-hookup-guide/all" class="postlink">https://learn.sparkfun.com/tutorials/bi ... -guide/all</a> , Please share if you do so!!<br>
+<br>
+Connections:
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>RPi to CAN module
+3.3V (Physical Pin 1) &lt;==&gt; Vcc CAN module
+5V (Physical Pin 2) &lt;==&gt; soldered capacitor behind CAN module
+GND (Physical Pin 6) &lt;==&gt; GND CAN module
+CE0 (Physical Pin 24) &lt;==&gt; CS CAN module
+MISO (Physical Pin 21) &lt;==&gt; SO CAN module
+MOSI (Physical Pin 19) &lt;==&gt; SI CAN module
+SCLK (Physical Pin 23) &lt;==&gt; SCK CAN module
+GPIO-BCM-12 (Physical Pin 32) &lt;==&gt; INT CAN module
+</code></pre></div>
+
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>UNO to CAN module 
+5V &lt;==&gt; Vcc
+GND &lt;==&gt; GND
+Pin 13 &lt;==&gt; SCK
+Pin 12 &lt;==&gt; SO
+Pin 11 &lt;==&gt; SI
+Pin 10 &lt;==&gt; CS</code></pre></div>
+
+Image at bottom of post for connections<br>
+<br>
+<img src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/pi_uno_can" class="postimage" alt="Image"><br>
+<br>
+Do the following :<br>
+<br>
+1.Open the configurations file
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>sudo nano /boot/config.txt</code></pre></div>
+
+2.Add these lines
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>dtparam=spi=on
+dtoverlay=mcp2515-can0,oscillator=8000000,interrupt=12
+dtoverlay=spi-bcm2835-overlay</code></pre></div>
+(if dtparam=spi=on is uncommented and existing , please leave it)<br>
+<br>
+3.<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>sudo apt-get install can-utils</code></pre></div>
+
+4.<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>sudo reboot</code></pre></div>
+
+5.The following should throw similar output
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>ls /sys/bus/spi/devices/spi0.0
+driver  modalias  net  of_node  power  statistics  subsystem  uevent
+ls /sys/bus/spi/devices/spi0.0/net
+can0
+ls /sys/bus/spi/devices/spi0.0/net/can0/
+addr_assign_type    dev_id             link_mode         proto_down
+address             dev_port           mtu               queues
+addr_len            dormant            name_assign_type  speed
+broadcast           duplex             netdev_group      statistics
+carrier             flags              operstate         subsystem
+carrier_changes     gro_flush_timeout  phys_port_id      tx_queue_len
+carrier_down_count  ifalias            phys_port_name    type
+carrier_up_count    ifindex            phys_switch_id    uevent
+device              iflink             power</code></pre></div>
+
+6.Setup the CAN interface
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>sudo ip link set can0 up type can bitrate 500000 </code></pre></div>
+(NOTE: to down the bus <br>
+sudo ip link set can0 down  )<br>
+<br>
+7.<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>sudo ifconfig</code></pre></div>
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>can0: flags=193&lt;UP,RUNNING,NOARP&gt;  mtu 16
+        unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 10  (UNSPEC)
+        RX packets 1651057  bytes 717672 (700.8 KiB)
+        RX errors 1707  dropped 39  overruns 0  frame 1707
+        TX packets 23  bytes 141 (141.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</code></pre></div>
+
+8. To send and receive data we can use Python for RPi and C for Arduino (In RPi we can use can-utils for testing)<br>
+<br>
+LIBRARIES:<br>
+Arduino C CAN  : <a href="https://github.com/Seeed-Studio/Seeed_Arduino_CAN/tree/old" class="postlink">https://github.com/Seeed-Studio/Seeed_A ... N/tree/old</a>
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>Install the above library in your arduino IDE</code></pre></div>
+Raspberry Pi Python CAN : <a href="https://python-can.readthedocs.io/en/master/" class="postlink">https://python-can.readthedocs.io/en/master/</a>
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code> pip3 install python-can</code></pre></div>
+
+1.Run python3 can_basic_send.py in RPi and CAN_RX.ino in Uno<br>
+2.Run python3 can_basic_recv.py in RPi and CAN_TX.ino in Uno<br>
+VERY IMPORTANT NOTE: <br>
+Bitrate of RPI &amp; UNO is 500000(set in program)<br>
+Clock frequency of RPI &amp; UNO is 8Mhz(set in config file and program)<br>
+<br>
+Remove unwanted LED stuff from arduino code if you want!!<br>
+<br>
+can_basic_recv.py OUTPUT:
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>Timestamp: 1607220936.314801        ID: 0043    S                DLC:  8    01 02 03 04 05 06 07 08     Channel: can0
+Timestamp: 1607220937.314749        ID: 0043    S                DLC:  8    01 02 03 04 05 06 07 08     Channel: can0
+Timestamp: 1607220937.315004        ID: 0043    S                DLC:  8    01 02 03 04 05 06 07 08     Channel: can0
+Timestamp: 1607220937.315288        ID: 0043    S                DLC:  8    01 02 03 04 05 06 07 08     Channel: can0
+Timestamp: 1607220938.315610        ID: 0043    S                DLC:  8    01 02 03 04 05 06 07 08     Channel: can0</code></pre></div>
+
+CAN_RX.ino OUTPUT:
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>Data from ID: 0x7EE
+0	1	3	1	4	1	
+-----------------------------
+Data from ID: 0x7EE
+0	1	3	1	4	1	
+-----------------------------
+Data from ID: 0x7EE
+0	1	3	1	4	1	
+-----------------------------
+Data from ID: 0x7EE
+0	1	3	1	4	1	
+-----------------------------
+Data from ID: 0x7EE
+0	1	3	1	4	1	</code></pre></div>
+
+In Arduino Run<br>
+CAN_RX.ino
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>#include &lt;SPI.h&gt;
+#include "mcp_can.h"
+
+const int spiCSPin = 10;
+const int ledPin = 2;
+boolean ledON = 1;
+
+MCP_CAN CAN(spiCSPin);
+
+void setup()
+{
+    Serial.begin(115200);
+    pinMode(ledPin,OUTPUT);
+
+    while (CAN_OK != CAN.begin(CAN_500KBPS,MCP_8MHz))
+    {
+        Serial.println("CAN BUS Init Failed");
+        delay(100);
+    }
+    Serial.println("CAN BUS  Init OK!");
+}
+
+
+void loop()
+{
+    unsigned char len = 0;
+    unsigned char buf[8];
+
+    if(CAN_MSGAVAIL == CAN.checkReceive())
+    {
+        CAN.readMsgBuf(&amp;len, buf);
+
+        unsigned long canId = CAN.getCanId();
+
+        Serial.println("-----------------------------");
+        Serial.print("Data from ID: 0x");
+        Serial.println(canId, HEX);
+
+        for(int i = 0; i&lt;len; i++)
+        {
+            Serial.print(buf[i]);
+            Serial.print("\t");
+            if(ledON &amp;&amp; i==0)
+            {
+
+                digitalWrite(ledPin, buf[i]);
+                ledON = 0;
+                delay(500);
+            }
+            else if((!(ledON)) &amp;&amp; i==4)
+            {
+
+                digitalWrite(ledPin, buf[i]);
+                ledON = 1;
+            }
+        }
+        Serial.println();
+    }
+}</code></pre></div>
+
+In Raspberry Pi Run<br>
+can-basic-send.py
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>import time
+import can
+
+bustype = 'socketcan'
+channel = 'can0'
+bus = can.interface.Bus(channel=channel, bustype=bustype,bitrate=500000)
+
+msg = can.Message(arbitration_id=0xc0ffee, data=[0, 1, 3, 1, 4, 1], is_extended_id=False)
+while True:
+	bus.send(msg)
+	time.sleep(1)</code></pre></div>
+
+In Arduino Run<br>
+CAN_TX.ino
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>#include &lt;SPI.h&gt;
+#include &lt;mcp_can.h&gt;
+
+const int spiCSPin = 10;
+int ledHIGH    = 1;
+int ledLOW     = 0;
+
+MCP_CAN CAN(spiCSPin);
+
+void setup()
+{
+    Serial.begin(115200);
+
+    while (CAN_OK != CAN.begin(CAN_500KBPS,MCP_8MHz))
+    {
+        Serial.println("CAN BUS init Failed");
+        delay(100);
+    }
+    Serial.println("CAN BUS Shield Init OK!");
+}
+
+unsigned char stmp[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+    
+void loop()
+{   
+  Serial.println("In loop");
+  CAN.sendMsgBuf(0x43, 0, 8, stmp);
+  delay(1000);
+}</code></pre></div>
+
+In Raspberry Pi Run<br>
+can-basic-recv.py
+<div class="codebox"><p>Code: <a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" onclick="selectCode(this); return false;">Select all</a></p><pre><code>import can
+import time
+
+can_interface = 'can0'
+bus = can.interface.Bus(can_interface, bustype='socketcan',bitrate=500000)
+
+while True:
+	message = bus.recv()
+	print(message)
+#for msg in bus:
+	#print(msg.data)</code></pre></div></div>
+
+											<dl class="attachbox">
+							<dt>
+								Attachments
+							</dt>
+															<dd>
+
+	
+		
+		
+
+				<dl class="file">
+			<dt class="attach-image"><img src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/pi_uno_can.png" class="postimage" alt="pi_uno_can.png" onclick="viewableArea(this);"></dt>
+						<dd>pi_uno_can.png (132.05 KiB) Viewed 25474 times</dd>
+		</dl>
+		
+		
+		
+		
+	
+</dd>
+													</dl>
+					
+															
+															
+										</div>
+
+				</div>
+
+				</div>
+											</div>
+
+			<hr class="divider">
+					
+		
+		
+				<div class="action-bar bottom">
+			<div class="buttons">
+				
+							<a href="https://forums.raspberrypi.com/posting.php?mode=reply&amp;t=296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1" class="button font-icon" title="This topic is locked, you cannot edit posts or make further replies.">
+					<i class="fa fa-lock"></i>Locked				</a>
+			
+							</div>
+
+				<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Topic tools" class="button icon-button tools-icon dropdown-trigger dropdown-select dropdown-toggle"><i class="fa fa-wrench"></i></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="font-icon icon-print"><a href="https://forums.raspberrypi.com/viewtopic.php?t=296117&amp;sid=6b8e755522c0a80abe26889ac8a958a1&amp;view=print" title="Print view" accesskey="p"><i class="fa fa-print"></i>Print view</a></li>							</ul>
+		</div>
+	</div>
+
+			
+			
+							<div class="pagination">
+					1 post
+											• Page <strong>1</strong> of <strong>1</strong>
+									</div>
+						<div class="clear"></div>
+		</div>
+
+				
+	<p class="jumpbox-return"><a href="https://forums.raspberrypi.com/viewforum.php?f=44&amp;sid=6b8e755522c0a80abe26889ac8a958a1" class="left-box arrow-left" accesskey="r">Return to “Interfacing (DSI, CSI, I2C, etc.)”</a></p>
+
+	<div class="dropdown-container dropdown-container-right dropdown-up dropdown-left dropdown-button-control" id="jumpbox">
+		<span title="Jump to" class="dropdown-trigger button dropdown-select dropdown-toggle">
+			Jump to		</span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																			<li><a href="https://forums.raspberrypi.com/viewforum.php?f=19&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Community</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=63&amp;sid=6b8e755522c0a80abe26889ac8a958a1">General discussion</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=117&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Announcements</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=90&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Other languages</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=75&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Deutsch</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=76&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Español</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=65&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Français</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=79&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Italiano</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=88&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Nederlands</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=82&amp;sid=6b8e755522c0a80abe26889ac8a958a1">日本語</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=103&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Polski</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=74&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Português</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=84&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Русский</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=89&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Türkçe</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=57&amp;sid=6b8e755522c0a80abe26889ac8a958a1">User groups and events</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=106&amp;sid=6b8e755522c0a80abe26889ac8a958a1">The MagPi</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=12&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Using the Raspberry Pi</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=91&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Beginners</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=28&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Troubleshooting</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=29&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Advanced users</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=102&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Assistive technology and accessibility</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=17&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Education</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=99&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Picademy</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=49&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Teaching and learning resources</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=48&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Staffroom, classroom and projects</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=104&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Astro Pi</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=94&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Mathematica</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=111&amp;sid=6b8e755522c0a80abe26889ac8a958a1">High Altitude Balloon</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=112&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Weather station</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=14&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Programming</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=33&amp;sid=6b8e755522c0a80abe26889ac8a958a1">C/C++</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=81&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Java</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=32&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Python</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=77&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Scratch</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=34&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Other programming languages</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=105&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Windows 10 for IoT</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=95&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Wolfram Language</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=72&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Bare metal, Assembly language</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=67&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Graphics programming</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=68&amp;sid=6b8e755522c0a80abe26889ac8a958a1">OpenGLES</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=69&amp;sid=6b8e755522c0a80abe26889ac8a958a1">OpenVG</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=70&amp;sid=6b8e755522c0a80abe26889ac8a958a1">OpenMAX</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=31&amp;sid=6b8e755522c0a80abe26889ac8a958a1">General programming discussion</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=15&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Projects</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=36&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Networking and servers</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=37&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Automation, sensing and robotics</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=38&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Graphics, sound and multimedia</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=41&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Other projects</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=35&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Media centres</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=78&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Gaming</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=114&amp;sid=6b8e755522c0a80abe26889ac8a958a1">AIY Projects</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=16&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Hardware and peripherals</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=43&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Camera board</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=98&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Compute Module</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=108&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Official Display</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=45&amp;sid=6b8e755522c0a80abe26889ac8a958a1">HATs and other add-ons</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=107&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Device Tree</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=44&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Interfacing (DSI, CSI, I2C, etc.)</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=140&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Raspberry Pi 400 and 500</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=143&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Raspberry Pi Pico</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=144&amp;sid=6b8e755522c0a80abe26889ac8a958a1">General</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=145&amp;sid=6b8e755522c0a80abe26889ac8a958a1">SDK</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=146&amp;sid=6b8e755522c0a80abe26889ac8a958a1">MicroPython</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=147&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Other RP2040 boards</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=168&amp;sid=6b8e755522c0a80abe26889ac8a958a1">AI Accelerator</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=169&amp;sid=6b8e755522c0a80abe26889ac8a958a1">AI Camera - IMX500</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=170&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Hailo</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=18&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Software</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=66&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Raspberry Pi OS</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=167&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Raspberry Pi Connect</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=116&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Raspberry Pi Desktop for PC and Mac</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=56&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Other</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=73&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Android</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=50&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Debian</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=85&amp;sid=6b8e755522c0a80abe26889ac8a958a1">FreeBSD</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=54&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Gentoo</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=71&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Linux Kernel</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=86&amp;sid=6b8e755522c0a80abe26889ac8a958a1">NetBSD</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=87&amp;sid=6b8e755522c0a80abe26889ac8a958a1">openSUSE</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=80&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Plan 9</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=52&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Puppy</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=53&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Arch</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=51&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Pidora / Fedora</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=55&amp;sid=6b8e755522c0a80abe26889ac8a958a1">RISCOS</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=131&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Ubuntu</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=20&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Ye Olde Pi Shoppe</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=93&amp;sid=6b8e755522c0a80abe26889ac8a958a1">For sale</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=61&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Wanted</a></li>
+																<li><a href="https://forums.raspberrypi.com/viewforum.php?f=21&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Off topic</a></li>
+																<li>&nbsp; &nbsp;<a href="https://forums.raspberrypi.com/viewforum.php?f=62&amp;sid=6b8e755522c0a80abe26889ac8a958a1">Off topic discussion</a></li>
+										</ul>
+		</div>
+	</div>
+
+		
+		
+	</div>
+</div>
+
+        <!-- main element opens in overall_header.html -->
+        </main>
+		
+	
+	<div id="wrap-footer">
+		<div id="site-footer-nav" role="navigation">
+			<div class="chunk">
+				<ul class="site-footer-nav" role="menubar">
+					<li class="small-icon icon-home breadcrumbs">
+																		<span class="crumb"><a href="https://forums.raspberrypi.com/index.php?sid=6b8e755522c0a80abe26889ac8a958a1" data-navbar-reference="index" title="Board index">Board index</a></span>
+											</li>
+					
+										<li class="rightside">All times are <span title="UTC">UTC</span></li>
+																<li class="small-icon icon-delete-cookies rightside"><a href="https://forums.raspberrypi.com/app.php/user/delete_cookies?sid=6b8e755522c0a80abe26889ac8a958a1" data-ajax="true" data-refresh="true" role="menuitem">Delete cookies</a></li>
+															</ul>
+			</div>
+		</div>
+
+    <style>
+#__rptl-footer .__rptl-footer-link, #__rptl-footer .__rptl-footer-link--with-icon, #__rptl-footer .__rptl-footer-item, #__rptl-footer .__rptl-footer-list, #__rptl-footer .__rptl-footer-heading, #__rptl-footer .__rptl-footer-column, #__rptl-footer .__rptl-footer-row, #__rptl-footer .__rptl-footer-container, #__rptl-footer {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+#__rptl-footer {
+  display: block;
+  font-family: "Roboto", sans-serif;
+  font-size: medium;
+  font-weight: 400;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f5f6f9;
+  overflow: hidden;
+}
+#__rptl-footer .__rptl-footer-container {
+  width: 100%;
+  max-width: 1300px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin: auto;
+  margin-top: 32px;
+}
+@media (min-width: 800px) {
+  #__rptl-footer .__rptl-footer-container {
+    padding: 0 76px;
+  }
+}
+@media (min-width: 1200px) {
+  #__rptl-footer .__rptl-footer-container {
+    padding: 0 84px;
+  }
+}
+#__rptl-footer .__rptl-footer-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+#__rptl-footer .__rptl-footer-column {
+  flex-basis: 1;
+  width: 100%;
+  padding-right: 8px;
+}
+@media (min-width: 640px) {
+  #__rptl-footer .__rptl-footer-column {
+    width: 50%;
+  }
+}
+@media (min-width: 1024px) {
+  #__rptl-footer .__rptl-footer-column {
+    width: 25%;
+  }
+}
+#__rptl-footer .__rptl-footer-heading {
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 8px;
+}
+#__rptl-footer .__rptl-footer-list {
+  list-style: none;
+  margin-bottom: 32px;
+}
+#__rptl-footer .__rptl-footer-item {
+  margin-bottom: 8px;
+}
+#__rptl-footer .__rptl-footer-icon {
+  margin-right: 0.5em;
+  fill: #333;
+}
+#__rptl-footer .__rptl-footer-link, #__rptl-footer .__rptl-footer-link--with-icon {
+  font-weight: 400;
+  color: #333;
+  text-decoration: none;
+}
+#__rptl-footer .__rptl-footer-link--with-icon {
+  display: inline-flex;
+  align-items: center;
+}
+#__rptl-footer .__rptl-footer-link:hover, #__rptl-footer .__rptl-footer-link--with-icon:hover {
+  text-decoration: underline;
+}
+</style>
+<footer id="__rptl-footer">
+  <div class="__rptl-footer-container">
+    <div class="__rptl-footer-row">
+      <div class="__rptl-footer-column">
+        <div class="__rptl-footer-heading">Follow us</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item">
+            <a href="https://www.raspberrypi.com/weekly/" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 6v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2Zm19.707 10.293a1 1 0 1 1-1.414 1.414L15 13.414l-.515.515a3.518 3.518 0 0 1-4.97 0L9 13.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L7.586 12 3.293 7.707a1 1 0 0 1 1.414-1.414l5 5 1.222 1.222a1.516 1.516 0 0 0 2.142 0l1.222-1.222 5-5a1 1 0 0 1 1.414 1.414L16.414 12Z"></path></svg>
+              Sign up to newsletter
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://x.com/Raspberry_Pi" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1227 1227">
+                <path d="m714.16 519.28 446.73-519.28h-105.86l-387.89 450.89-309.81-450.89h-357.33l468.49 681.82-468.49 544.55h105.87l409.62-476.15 327.18 476.15h357.33l-485.86-707.09zm-145 168.55-47.46-67.9-377.69-540.24h162.6l304.8 435.99 47.47 67.9 396.2 566.72h-162.6l-323.32-462.45z"></path>
+              </svg>
+              X
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://www.threads.net/@raspberrypi" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.94c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.194 47.292 9.642 32.788 28.08 19.882 44.485 13.224 67.315 13.001 95.932L13 96v.067c.224 28.617 6.882 51.447 19.788 67.854C47.292 182.358 68.882 191.806 96.957 192h.113c24.96-.173 42.554-6.708 57.048-21.189 18.963-18.945 18.392-42.692 12.142-57.27-4.484-10.454-13.033-18.945-24.723-24.553ZM98.44 129.507c-10.44.588-21.286-4.098-21.82-14.135-.397-7.442 5.296-15.746 22.461-16.735 1.966-.114 3.895-.169 5.79-.169 6.235 0 12.068.606 17.371 1.765-1.978 24.702-13.58 28.713-23.802 29.274Z"></path></svg>
+              Threads
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://www.tiktok.com/@raspberry_pi" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><path d="m36.62 13.617a9.106 9.106 0 0 1 -4.14-7.617h-6.533l-.01 26.182c-.11 2.932-2.523 5.285-5.482 5.285-.919 0-1.785-.23-2.547-.631a5.494 5.494 0 0 1 -2.944-4.86 5.498 5.498 0 0 1 5.491-5.492c.566 0 1.108.093 1.62.253v-6.669c-.53-.072-1.07-.117-1.62-.117-6.63 0-12.024 5.394-12.024 12.024 0 4.069 2.032 7.669 5.133 9.846a11.954 11.954 0 0 0 6.891 2.179c6.631 0 12.025-5.394 12.025-12.025v-13.275a15.537 15.537 0 0 0 9.09 2.923v-6.533a9.033 9.033 0 0 1 -4.95-1.472z"></path></svg>
+              TikTok
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://youtube.com/raspberrypi" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.751 15.27V8.73L15.498 12l-5.747 3.27Zm12.783-8.597a2.763 2.763 0 0 0-1.944-1.956C18.876 4.254 12 4.254 12 4.254s-6.876 0-8.59.463a2.763 2.763 0 0 0-1.944 1.956A28.982 28.982 0 0 0 1.006 12a28.982 28.982 0 0 0 .46 5.327 2.763 2.763 0 0 0 1.943 1.956c1.715.463 8.591.463 8.591.463s6.876 0 8.59-.463a2.763 2.763 0 0 0 1.944-1.956 28.98 28.98 0 0 0 .46-5.327 28.98 28.98 0 0 0-.46-5.327Z"></path></svg>
+              YouTube
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://www.instagram.com/raspberrypi/" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.25 3.667c2.67 0 2.986.01 4.04.058a5.534 5.534 0 0 1 1.858.344 3.312 3.312 0 0 1 1.898 1.898 5.534 5.534 0 0 1 .344 1.857c.048 1.054.058 1.37.058 4.04s-.01 2.987-.058 4.042a5.534 5.534 0 0 1-.344 1.857 3.312 3.312 0 0 1-1.898 1.897 5.533 5.533 0 0 1-1.857.345c-1.054.048-1.37.058-4.041.058s-2.987-.01-4.04-.058a5.533 5.533 0 0 1-1.858-.345 3.312 3.312 0 0 1-1.898-1.897 5.534 5.534 0 0 1-.344-1.857c-.048-1.055-.058-1.371-.058-4.041s.01-2.987.058-4.041a5.534 5.534 0 0 1 .344-1.857A3.312 3.312 0 0 1 6.352 4.07a5.533 5.533 0 0 1 1.857-.344c1.055-.048 1.37-.058 4.041-.058m0-1.802c-2.716 0-3.056.011-4.123.06A7.34 7.34 0 0 0 5.7 2.39a5.113 5.113 0 0 0-2.925 2.924 7.34 7.34 0 0 0-.465 2.428c-.049 1.066-.06 1.407-.06 4.123s.011 3.056.06 4.123a7.34 7.34 0 0 0 .465 2.427A5.113 5.113 0 0 0 5.7 21.34a7.34 7.34 0 0 0 2.427.465c1.067.048 1.407.06 4.123.06s3.056-.012 4.123-.06a7.34 7.34 0 0 0 2.427-.465 5.113 5.113 0 0 0 2.925-2.925 7.34 7.34 0 0 0 .465-2.427c.048-1.067.06-1.407.06-4.123s-.012-3.057-.06-4.123a7.34 7.34 0 0 0-.465-2.428A5.113 5.113 0 0 0 18.8 2.39a7.34 7.34 0 0 0-2.427-.465c-1.067-.049-1.407-.06-4.123-.06Z"></path><path class="cls-1" d="M12.25 6.73a5.135 5.135 0 1 0 5.135 5.135A5.135 5.135 0 0 0 12.25 6.73Zm0 8.468a3.333 3.333 0 1 1 3.333-3.333 3.333 3.333 0 0 1-3.333 3.333Z"></path><circle cx="17.588" cy="6.527" r="1.2"></circle></svg>
+              Instagram
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://www.linkedin.com/company/raspberrypi/" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.435 2.1H3.561a1.445 1.445 0 0 0-1.462 1.426v16.946a1.446 1.446 0 0 0 1.462 1.429h16.874a1.449 1.449 0 0 0 1.466-1.429V3.526A1.448 1.448 0 0 0 20.435 2.1ZM7.972 18.972H5.035v-9.45h2.937ZM6.504 8.23a1.703 1.703 0 1 1 1.702-1.703A1.703 1.703 0 0 1 6.504 8.23Zm12.468 10.742h-2.934v-4.596c0-1.096-.02-2.505-1.527-2.505-1.528 0-1.762 1.193-1.762 2.426v4.675H9.814v-9.45h2.817v1.291h.04a3.086 3.086 0 0 1 2.778-1.526c2.974 0 3.523 1.957 3.523 4.501Z"></path></svg>
+              LinkedIn
+            </a>
+          </li>
+          <li class="__rptl-footer-item">
+            <a href="https://www.facebook.com/raspberrypi" class="__rptl-footer-link--with-icon">
+              <svg class="__rptl-footer-icon" aria-hidden="true" focusable="false" width="1.25em" height="1.25em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12.06a10 10 0 1 0-11.563 9.88V14.95H7.899v-2.89h2.54V9.858a3.529 3.529 0 0 1 3.777-3.891 15.378 15.378 0 0 1 2.238.195v2.461h-1.26a1.445 1.445 0 0 0-1.63 1.562v1.876h2.773l-.443 2.89h-2.33v6.988A10.002 10.002 0 0 0 22 12.061Z"></path></svg>
+              Facebook
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="__rptl-footer-column">
+        <div class="__rptl-footer-heading">About Raspberry Pi</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/news/" class="__rptl-footer-link">News</a></li>
+          <li class="__rptl-footer-item"><a href="https://investors.raspberrypi.com/" class="__rptl-footer-link">Investor relations</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/contact/" class="__rptl-footer-link">Contact us</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/trademark-rules/" class="__rptl-footer-link">Trademark</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/about/" class="__rptl-footer-link">About us</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/resellers/" class="__rptl-footer-link">Our Approved Resellers</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/jobs/" class="__rptl-footer-link">Jobs</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/accessibility/" class="__rptl-footer-link">Accessibility</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/modern-slavery-statement/" class="__rptl-footer-link">Modern slavery statement</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/terms-and-conditions/" class="__rptl-footer-link">Site use terms and conditions</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/acceptable-use/" class="__rptl-footer-link">Acceptable use</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/cookies/" class="__rptl-footer-link">Cookies</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/licensing/" class="__rptl-footer-link">Licensing</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/terms-conditions-sale/" class="__rptl-footer-link">Terms and conditions of sale</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/privacy/" class="__rptl-footer-link">Privacy</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/contact/security/" class="__rptl-footer-link">Security</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/verify/" class="__rptl-footer-link">Verify our bank details</a></li>
+        </ul>
+      </div>
+      <div class="__rptl-footer-column">
+        <div class="__rptl-footer-heading">For home</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-home/" class="__rptl-footer-link">Raspberry Pi for home</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/tutorials/" class="__rptl-footer-link">Tutorials</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">For industry</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-industry/" class="__rptl-footer-link">Raspberry Pi for industry</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-industry/thin-clients/" class="__rptl-footer-link">Thin clients</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-industry/space/" class="__rptl-footer-link">Raspberry Pi in space</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-industry/powered-by/" class="__rptl-footer-link">Powered by Raspberry Pi</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/for-industry/design-partners/" class="__rptl-footer-link">Design partners</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/success-stories/" class="__rptl-footer-link">Success stories</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">Hardware</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#raspberry-pi-computers-and-microcontrollers" class="__rptl-footer-link">Computers and microcontrollers</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#cameras-and-displays" class="__rptl-footer-link">Cameras and displays</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#add-on-boards" class="__rptl-footer-link">Add-on boards</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#power-supplies-and-cables" class="__rptl-footer-link">Power supplies and cables</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#cases" class="__rptl-footer-link">Cases</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/products/#peripherals" class="__rptl-footer-link">Peripherals</a></li>
+        </ul>
+      </div>
+      <div class="__rptl-footer-column">
+        <div class="__rptl-footer-heading">Software</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/software/connect/" class="__rptl-footer-link">Raspberry Pi Connect</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/software/raspberry-pi-desktop/" class="__rptl-footer-link">Raspberry Pi Desktop</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/software/" class="__rptl-footer-link">Raspberry Pi Imager</a></li>
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/software/operating-systems/#raspberry-pi-os-32-bit" class="__rptl-footer-link">Raspberry Pi OS</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">Documentation</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/documentation/" class="__rptl-footer-link">All categories</a></li>
+          <li class="__rptl-footer-item"><a href="https://pip.raspberrypi.com/" class="__rptl-footer-link">Product information portal</a></li>
+          <li class="__rptl-footer-item"><a href="https://datasheets.raspberrypi.com/" class="__rptl-footer-link">Datasheets</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">Community</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://forums.raspberrypi.com/" class="__rptl-footer-link">Forums</a></li>
+          <li class="__rptl-footer-item"><a href="https://events.raspberrypi.com/" class="__rptl-footer-link">Events</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">Raspberry Pi Store</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/raspberry-pi-store/" class="__rptl-footer-link">Store information</a></li>
+        </ul>
+        <div class="__rptl-footer-heading">Raspberry Pi Press</div>
+        <ul class="__rptl-footer-list">
+          <li class="__rptl-footer-item"><a href="https://www.raspberrypi.com/books-magazines/" class="__rptl-footer-link">About Raspberry Pi Press</a></li>
+          <li class="__rptl-footer-item"><a href="https://magpi.raspberrypi.com/" class="__rptl-footer-link">The MagPi</a></li>
+          <li class="__rptl-footer-item"><a href="https://hackspace.raspberrypi.com/" class="__rptl-footer-link">HackSpace</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+		<div id="darkenwrapper" data-ajax-error-title="AJAX error" data-ajax-error-text="Something went wrong when processing your request." data-ajax-error-text-abort="User aborted request." data-ajax-error-text-timeout="Your request timed out; please try again." data-ajax-error-text-parsererror="Something went wrong with the request and the server returned an invalid reply.">
+			<div id="darken">&nbsp;</div>
+		</div>
+
+		<div id="phpbb_alert" class="phpbb_alert" data-l-err="Error" data-l-timeout-processing-req="Request timed out.">
+			<a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" class="alert_close"></a>
+			<h3 class="alert_title">&nbsp;</h3><p class="alert_text"></p>
+		</div>
+		<div id="phpbb_confirm" class="phpbb_alert">
+			<a href="https://forums.raspberrypi.com/viewtopic.php?t=296117#" class="alert_close"></a>
+			<div class="alert_text"></div>
+		</div>
+
+		<div style="display: none;">
+			<a id="bottom" class="anchor" accesskey="z"></a>
+					</div>
+</div>
+
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/jquery-3.7.1.min.js.indir"></script>
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/core.js.indir"></script>
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/js.cookie.js.indir"></script>
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/forum_fn.js.indir"></script>
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/ajax.js.indir"></script>
+<script type="text/javascript" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/chosen.jquery.min.js.indir"></script>
+
+
+<script>
+	$(function() {
+		$("#st, #sd, #sk, #ch").chosen({
+			disable_search: true,
+			width: "auto"
+		});
+	});
+</script>
+
+<script>
+	// $(function() {
+	//
+	// 	var sidebarRecentPostDiv = document.getElementById("sidebar-recent-posts");
+	//
+	// 	$.get('/app.php/feed?sid=6b8e755522c0a80abe26889ac8a958a1', function (data) {
+	// 		$(data).find("entry").each(function (i) {
+	// 			var el = $(this);
+	// 			var entryWrap = document.createElement("div");
+	//
+	// 			var entryTitle = document.createElement("a");
+	// 			var entryAuthor = document.createElement("span");
+	// 			var entryContent = document.createElement("span");
+	//
+	// 			entryTitle.className = ("sidebar-recent-title");
+	// 			entryAuthor.className = ("sidebar-recent-author");
+	// 			entryContent.className = ("sidebar-recent-content");
+	//
+	// 			function cutText(name) {
+	// 				var elementText = el.find(name).text();
+	//
+	// 				if (name == "title") {
+	// 					elementText = elementText.substring(elementText.indexOf("•") + 2);
+	// 				} else if (name == "content") {
+	// 					elementText = elementText.replace(/(<([^>]+)>)/ig,"");
+	// 				}
+	//
+	// 				if (elementText.length > 50) {
+	// 					return elementText.substr(0, 50);
+	// 				} else {
+	// 					return elementText;
+	// 				};
+	// 			};
+	//
+	// 			entryTitle.textContent = cutText("title");
+	// 			entryAuthor.textContent = "by " + cutText("author");
+	// 			entryContent.textContent = cutText("content");
+	// 			entryURL = el.find("id").text();
+	//
+	// 			$(entryTitle).attr("href", entryURL);
+	//
+	// 			entryWrap.appendChild(entryTitle);
+	// 			entryWrap.appendChild(entryAuthor);
+	// 			entryWrap.appendChild(entryContent);
+	//
+	// 			sidebarRecentPostDiv.appendChild(entryWrap);
+	//
+	// 			if (++i >= 5) {
+	// 				return false;
+	// 			}
+	// 		});
+	// 	});
+	//
+	// });
+</script>
+
+
+
+
+
+</div>
+
+<!-- Google tag (gtag.js) -->
+<script async="" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+	gtag('consent', 'default', {
+		'ad_storage': 'denied',
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
+		'analytics_storage': 'denied'
+	});
+  gtag('js', new Date());
+
+  gtag('config', 'G-9633Z0KS6W');
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9162696b3b0ae3e5',t:'MTc0MDI2MzMzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" src="./[quick-guide] CAN bus on raspberry pi with MCP2515 and Arduino - Raspberry Pi Forums_files/saved_resource.html"></iframe>
+
+<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body></html>
