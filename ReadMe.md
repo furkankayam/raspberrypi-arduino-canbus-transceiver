@@ -13,8 +13,6 @@
 <img src="./images/raspberry_pi_rs485_pinout.png" alt="shield pinout">
 </details>
 
-<br>
-
 ## ⚙️ Setup and Configuration
 
 ### 1️⃣ Enabling the SPI Interface
