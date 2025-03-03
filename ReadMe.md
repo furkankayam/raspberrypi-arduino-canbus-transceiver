@@ -6,6 +6,15 @@
 <img src="./images/image.jpg" alt="CANBUS Setup">
 </div>
 
+<br>
+
+<details>
+<summary> 🔶 Shield Pinout </summary>
+<img src="./images/raspberry_pi_rs485_pinout.png" alt="shield pinout">
+</details>
+
+<br>
+
 ## ⚙️ Setup and Configuration
 
 ### 1️⃣ Enabling the SPI Interface
@@ -61,7 +70,7 @@ sudo ip link set can0 up type can bitrate 500000
 ### 7️⃣ Installing the Python CAN Library
 
 ```sh
-sudo apt update  
+sudo apt update
 sudo apt install python3-can
 ```
 
